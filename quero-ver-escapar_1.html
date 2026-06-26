@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a1a; color: #fff; }
+  .slide {
+    width: 1280px; height: 720px;
+    display: flex; flex-direction: column;
+    page-break-after: always;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* CAPA */
+  .slide-capa {
+    background: linear-gradient(135deg, #1a0a2e 0%, #16213e 40%, #0f3460 100%);
+    justify-content: center; align-items: center; text-align: center;
+  }
+  .slide-capa::before {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+  }
+  .piramide-svg { margin-bottom: 20px; }
+  .capa-titulo { font-size: 56px; font-weight: 900; color: #d4af37; letter-spacing: 2px; text-shadow: 0 0 30px rgba(212,175,55,0.5); }
+  .capa-sub { font-size: 28px; color: #e8d5a3; margin-top: 10px; }
+  .capa-info { font-size: 18px; color: #8899aa; margin-top: 20px; letter-spacing: 1px; }
+  .badge { display: inline-block; background: rgba(212,175,55,0.2); border: 1px solid #d4af37; padding: 6px 20px; border-radius: 20px; margin-top: 16px; font-size: 16px; color: #d4af37; }
+
+  /* EQUIPE */
+  .slide-equipe {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 50px 80px;
+  }
+  .slide-titulo { font-size: 38px; font-weight: 800; color: #d4af37; border-left: 5px solid #d4af37; padding-left: 20px; margin-bottom: 35px; }
+  .equipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .membro { background: rgba(255,255,255,0.06); border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 14px 18px; }
+  .membro-nome { font-size: 17px; font-weight: 700; color: #e8d5a3; }
+  .membro-cargo { font-size: 14px; color: #88aabb; margin-top: 3px; }
+
+  /* CONTEXTO */
+  .slide-contexto {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 50px 80px;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+  }
+  .contexto-left { flex: 1; }
+  .contexto-right { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .info-card { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.4); border-radius: 10px; padding: 14px 18px; }
+  .info-label { font-size: 12px; color: #d4af37; text-transform: uppercase; letter-spacing: 1px; }
+  .info-val { font-size: 16px; color: #e8e8e8; margin-top: 4px; font-weight: 600; }
+
+  /* NARRATIVA */
+  .slide-narrativa {
+    background: linear-gradient(160deg, #1a0000 0%, #2d0a00 40%, #1a0a2e 100%);
+    padding: 50px 80px;
+    flex-direction: row; align-items: center; gap: 50px;
+  }
+  .narrativa-text { flex: 1.2; }
+  .narrativa-img { flex: 0.8; border-radius: 12px; overflow: hidden; border: 2px solid rgba(212,175,55,0.5); }
+  .narrativa-img img { width: 100%; height: 380px; object-fit: cover; }
+  .quote { font-size: 18px; color: #e8d5a3; line-height: 1.7; font-style: italic; border-left: 4px solid #d4af37; padding-left: 20px; margin: 20px 0; }
+  .selos { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .selo { background: rgba(212,175,55,0.15); border: 1px solid #d4af37; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #d4af37; font-weight: 700; }
+
+  /* ESTRUTURA */
+  .slide-estrutura {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 50px 80px;
+    flex-direction: row; gap: 40px; align-items: flex-start;
+  }
+  .estrutura-left { flex: 1; }
+  .estrutura-right { flex: 1; }
+  .etapa { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+  .etapa-num { width: 42px; height: 42px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; color: #000; flex-shrink: 0; }
+  .etapa-info h4 { font-size: 17px; color: #d4af37; font-weight: 700; }
+  .etapa-info p { font-size: 14px; color: #aabbcc; margin-top: 4px; line-height: 1.5; }
+
+  /* AULA 2 */
+  .slide-fase {
+    background: linear-gradient(160deg, #0a1628 0%, #1a2a4a 100%);
+    padding: 40px 60px;
+    flex-direction: row; gap: 40px; align-items: center;
+  }
+  .fase-left { flex: 1; }
+  .fase-badge { display: inline-block; background: #1a4a8a; border: 1px solid #4488dd; padding: 6px 16px; border-radius: 6px; font-size: 13px; color: #88ccff; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px; }
+  .fase-titulo { font-size: 32px; font-weight: 900; color: #88ccff; margin-bottom: 16px; }
+  .desafio-box { background: rgba(0,100,200,0.15); border: 1px solid rgba(100,180,255,0.3); border-radius: 10px; padding: 16px 20px; margin: 12px 0; }
+  .desafio-box .label { font-size: 12px; color: #88aacc; text-transform: uppercase; letter-spacing: 1px; }
+  .desafio-box .content { font-size: 22px; color: #fff; font-weight: 700; margin-top: 6px; font-family: monospace; }
+  .codigo-final { background: rgba(212,175,55,0.2); border: 2px solid #d4af37; border-radius: 10px; padding: 12px 20px; margin-top: 14px; text-align: center; }
+  .codigo-final .label { font-size: 12px; color: #d4af37; }
+  .codigo-final .val { font-size: 28px; font-weight: 900; color: #d4af37; letter-spacing: 6px; }
+
+  /* AULA 3 */
+  .slide-historia {
+    background: linear-gradient(160deg, #1a0a00 0%, #2d1500 40%, #1a1000 100%);
+    padding: 40px 60px;
+    flex-direction: row; gap: 40px; align-items: center;
+  }
+  .historia-left { flex: 1; }
+  .historia-badge { display: inline-block; background: rgba(180,100,20,0.3); border: 1px solid #c06010; padding: 6px 16px; border-radius: 6px; font-size: 13px; color: #ffaa44; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px; }
+  .historia-titulo { font-size: 30px; font-weight: 900; color: #ffaa44; margin-bottom: 16px; }
+  .acrostico-box { background: rgba(180,100,0,0.15); border: 1px solid rgba(200,120,20,0.4); border-radius: 10px; padding: 16px 20px; margin: 12px 0; }
+  .acrostico-palavra { font-size: 32px; font-weight: 900; letter-spacing: 8px; color: #ff6644; text-align: center; }
+  .codigo-sequencia { background: rgba(180,60,0,0.2); border: 1px solid #c04000; border-radius: 8px; padding: 10px 16px; margin-top: 12px; font-family: monospace; font-size: 16px; color: #ffaa44; letter-spacing: 3px; text-align: center; }
+
+  /* AULA 4 */
+  .slide-mapa {
+    background: linear-gradient(160deg, #001a0a 0%, #002d14 40%, #001a0a 100%);
+    padding: 40px 60px;
+    flex-direction: row; gap: 40px; align-items: center;
+  }
+  .mapa-left { flex: 0.8; }
+  .mapa-badge { display: inline-block; background: rgba(0,150,60,0.3); border: 1px solid #00aa44; padding: 6px 16px; border-radius: 6px; font-size: 13px; color: #44ff88; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px; }
+  .mapa-titulo { font-size: 30px; font-weight: 900; color: #44ff88; margin-bottom: 16px; }
+  .mapa-item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+  .mapa-icon { width: 32px; height: 32px; background: rgba(0,200,80,0.2); border: 1px solid #00aa44; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .mapa-item-text h4 { font-size: 15px; color: #44ff88; font-weight: 700; }
+  .mapa-item-text p { font-size: 13px; color: #88bbaa; margin-top: 2px; }
+
+  /* AULA 5 FINAL */
+  .slide-final {
+    background: linear-gradient(135deg, #1a0a2e 0%, #2d1060 40%, #1a0a2e 100%);
+    padding: 50px 80px;
+    justify-content: center; align-items: center; text-align: center;
+  }
+  .final-titulo { font-size: 48px; font-weight: 900; color: #d4af37; text-shadow: 0 0 30px rgba(212,175,55,0.6); }
+  .final-sub { font-size: 22px; color: #e8d5a3; margin-top: 14px; }
+  .senha-reveal { font-size: 64px; font-weight: 900; letter-spacing: 16px; color: #d4af37; margin: 30px 0; text-shadow: 0 0 40px rgba(212,175,55,0.8); }
+  .pontos-grid { display: flex; gap: 20px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+  .ponto { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.4); border-radius: 10px; padding: 14px 22px; min-width: 160px; }
+  .ponto-val { font-size: 28px; font-weight: 900; color: #d4af37; }
+  .ponto-label { font-size: 12px; color: #aaa; margin-top: 4px; }
+
+  /* AVALIAÇÃO */
+  .slide-avaliacao {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 50px 80px;
+    flex-direction: row; gap: 40px;
+  }
+  .aval-col { flex: 1; }
+  .criterio { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; border-left: 3px solid #d4af37; }
+  .criterio h4 { font-size: 15px; color: #d4af37; font-weight: 700; }
+  .criterio p { font-size: 13px; color: #aabbcc; margin-top: 3px; }
+
+  /* REFS */
+  .slide-refs {
+    background: linear-gradient(135deg, #0a0a1a, #1a1a2e);
+    padding: 60px 100px;
+    justify-content: center;
+  }
+  .ref { font-size: 16px; color: #8899bb; margin-bottom: 18px; line-height: 1.6; border-left: 3px solid #444; padding-left: 16px; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide slide-capa">
+  <svg class="piramide-svg" width="120" height="90" viewBox="0 0 120 90">
+    <polygon points="60,5 5,85 115,85" fill="none" stroke="#d4af37" stroke-width="2"/>
+    <line x1="60" y1="5" x2="60" y2="85" stroke="#d4af37" stroke-width="1" opacity="0.4"/>
+    <line x1="32" y1="50" x2="88" y2="50" stroke="#d4af37" stroke-width="1" opacity="0.4"/>
+    <circle cx="60" cy="38" r="8" fill="#d4af37" opacity="0.9"/>
+    <line x1="55" y1="33" x2="65" y2="33" stroke="#000" stroke-width="1.5"/>
+    <line x1="60" y1="28" x2="60" y2="43" stroke="#000" stroke-width="1.5"/>
+  </svg>
+  <div class="capa-titulo">🏛️ QUERO VER ESCAPAR</div>
+  <div class="capa-sub">Escape Room Escolar — Projeto Interdisciplinar Digital</div>
+  <div class="capa-info">Letramento Digital para Educação Básica · 5º ano do Ensino Fundamental</div>
+  <div class="badge">📚 GRUPO 4 · Apresentação dia 27</div>
+</div>
+
+<!-- SLIDE 2: EQUIPE -->
+<div class="slide slide-equipe">
+  <div class="slide-titulo">👥 Equipe Responsável</div>
+  <div class="equipe-grid">
+    <div class="membro"><div class="membro-nome">Elisa Maria Costa Silva</div><div class="membro-cargo">Licencianda em Química</div></div>
+    <div class="membro"><div class="membro-nome">Francielli Edmara dos Santos</div><div class="membro-cargo">Professora Municipal · Educação Infantil · São Carlos</div></div>
+    <div class="membro"><div class="membro-nome">Julia Daniela de Almeida</div><div class="membro-cargo">Licencianda em Química</div></div>
+    <div class="membro"><div class="membro-nome">Kelli Fauth Claro</div><div class="membro-cargo">Professora Municipal · Ensino Fundamental I · São Carlos</div></div>
+    <div class="membro"><div class="membro-nome">Laura Moro Ribeiro de Freitas</div><div class="membro-cargo">Pedagoga · Mestranda em Educação</div></div>
+    <div class="membro"><div class="membro-nome">Sabrina Sayuri Cabral Takagi</div><div class="membro-cargo">Licencianda em Pedagogia</div></div>
+    <div class="membro" style="grid-column: 1/-1; max-width: 400px;"><div class="membro-nome">Paulo Ricardo Gonçalves Machado</div><div class="membro-cargo">Licenciando em Educação Especial</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3: CONTEXTO -->
+<div class="slide slide-contexto">
+  <div class="contexto-left">
+    <div class="slide-titulo">🎯 Contexto e Proposta</div>
+    <p style="font-size:16px;color:#aabbcc;line-height:1.8;margin-top:16px;">
+      O <strong style="color:#d4af37">Escape Room Escolar</strong> é uma sequência didática de 5 aulas que usa a metodologia ativa de gamificação para reforçar conteúdos já trabalhados em sala.<br><br>
+      Cada aula prepara os alunos para desafios específicos. Na <strong style="color:#d4af37">Aula 5</strong>, tudo se une no jogo final, onde os grupos precisam resolver enigmas para "escapar" da sala.<br><br>
+      O professor atua como <strong style="color:#d4af37">Guardião da Pirâmide</strong>: mediador, narrador e controlador do tempo.
+    </p>
+  </div>
+  <div class="contexto-right">
+    <div class="info-card"><div class="info-label">👥 Público-Alvo</div><div class="info-val">5º ano do Ensino Fundamental · 10-11 anos</div></div>
+    <div class="info-card"><div class="info-label">⏱️ Estrutura</div><div class="info-val">5 aulas semanais · Aula final: 40-50 min</div></div>
+    <div class="info-card"><div class="info-label">📱 Dispositivos</div><div class="info-val">Tablets (1 por grupo) · Celulares como apoio</div></div>
+    <div class="info-card"><div class="info-label">👨‍👩‍👧‍👦 Organização</div><div class="info-val">6 grupos de 5 alunos · Grupos mistos e inclusivos</div></div>
+    <div class="info-card"><div class="info-label">📐 Área Principal</div><div class="info-val">Matemática + Interdisciplinar (LP, História, Ciências, Geografia)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 4: ESTRUTURA 5 AULAS -->
+<div class="slide slide-estrutura">
+  <div class="estrutura-left">
+    <div class="slide-titulo">🗓️ As 5 Aulas do Projeto</div>
+    <div class="etapa">
+      <div class="etapa-num">1</div>
+      <div class="etapa-info"><h4>Introdução ao Escape Room</h4><p>Apresentação da proposta, narrativa, regras do jogo e formação dos grupos. Professor apresenta o conceito de Escape Room adaptado para escola.</p></div>
+    </div>
+    <div class="etapa">
+      <div class="etapa-num">2</div>
+      <div class="etapa-info"><h4>Matemática — A Pirâmide Perdida</h4><p>4 desafios: operações, sequências, frações e raciocínio lógico. Uso de Google Forms como cadeado digital e QR Codes.</p></div>
+    </div>
+    <div class="etapa">
+      <div class="etapa-num">3</div>
+      <div class="etapa-info"><h4>Língua Portuguesa e História</h4><p>Texto acróstico sobre o Brasil colonial. Alunos decodificam letras iniciais e convertem em números para descobrir o código secreto.</p></div>
+    </div>
+  </div>
+  <div class="estrutura-right">
+    <div style="height:80px"></div>
+    <div class="etapa">
+      <div class="etapa-num">4</div>
+      <div class="etapa-info"><h4>Ciências e Geografia — Mapa da Missão</h4><p>Mapa da Cidade Futurística com coordenadas geográficas, ciclo da água e fauna. Alunos localizam o Laboratório Perdido e o microscópio escondido.</p></div>
+    </div>
+    <div class="etapa">
+      <div class="etapa-num" style="background:#d4af37;font-size:20px;">🏆</div>
+      <div class="etapa-info"><h4>Escape Room Final — O Jogo!</h4><p>Todos os conhecimentos das aulas anteriores se unem. Grupos competem para descobrir a senha final e escapar antes do cronômetro zerar.</p></div>
+    </div>
+    <div style="margin-top:20px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:14px 18px;">
+      <div style="font-size:13px;color:#d4af37;font-weight:700;margin-bottom:8px;">🎮 TECNOLOGIAS UTILIZADAS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:4px;font-size:13px;color:#ccc;">📱 Tablets</span>
+        <span style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:4px;font-size:13px;color:#ccc;">📝 Google Forms</span>
+        <span style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:4px;font-size:13px;color:#ccc;">🔲 QR Codes</span>
+        <span style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:4px;font-size:13px;color:#ccc;">🎨 Canva</span>
+        <span style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:4px;font-size:13px;color:#ccc;">🎯 Wordwall</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: AULA 2 -->
+<div class="slide slide-fase">
+  <div class="fase-left">
+    <div class="fase-badge">📐 AULA 2 · MATEMÁTICA</div>
+    <div class="fase-titulo">⚡ FASE 1 — Números Sagrados<br><span style="font-size:22px;color:#5599ff">FASE 2 — Labirinto do Faraó</span></div>
+    <div class="desafio-box">
+      <div class="label">🔢 Fase 1 · Multiplicação e Divisão</div>
+      <div class="content">8×7=? · 72÷8=? · 9×6=?</div>
+      <div class="codigo-final" style="margin-top:10px;padding:8px 14px;">
+        <div class="label">Código desbloqueado</div>
+        <div class="val" style="font-size:22px;">56 – 9 – 54</div>
+      </div>
+    </div>
+    <div class="desafio-box" style="border-color:rgba(100,200,255,0.3);">
+      <div class="label">🧩 Fase 2 · Sequência + Lógica</div>
+      <div class="content" style="font-size:16px;line-height:1.8;">Comece em 5 → +3 = 8 → ×2 = 16 → -4 = <span style="color:#d4af37">12</span></div>
+      <div style="font-size:13px;color:#88aacc;margin-top:6px;">Caminho 12 no mapa → QR Code escondido na sala</div>
+    </div>
+    <div style="font-size:13px;color:#6688aa;margin-top:10px;">✅ Google Forms libera próxima fase ao acertar</div>
+  </div>
+</div>
+
+<!-- SLIDE 6: AULA 3 -->
+<div class="slide slide-historia">
+  <div class="historia-left">
+    <div class="historia-badge">📜 AULA 3 · LP + HISTÓRIA</div>
+    <div class="historia-titulo">🗝️ O Texto Acróstico<br><span style="font-size:20px;color:#ffcc66">Decodificando o Brasil Colonial</span></div>
+    <div class="acrostico-box">
+      <div class="label" style="font-size:12px;color:#cc8833;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Palavra revelada pelas letras iniciais</div>
+      <div class="acrostico-palavra">BRASIL</div>
+    </div>
+    <div style="font-size:14px;color:#cc9944;margin:14px 0 6px;">Conversão B=2 · R=18 · A=1 · S=19 · I=9 · L=12</div>
+    <div class="codigo-sequencia">CÓDIGO: 2 – 18 – 1 – 19 – 9 – 12</div>
+    <div style="font-size:13px;color:#886644;margin-top:12px;">✅ Código inserido no Google Forms para liberar a Aula 4</div>
+  </div>
+</div>
+
+<!-- SLIDE 7: AULA 4 -->
+<div class="slide slide-mapa">
+  <div class="mapa-left">
+    <div class="mapa-badge">🌍 AULA 4 · CIÊNCIAS + GEOGRAFIA</div>
+    <div class="mapa-titulo">🗺️ Mapa da Missão<br><span style="font-size:20px;color:#88ddaa">Cidade Futurística</span></div>
+    <div class="mapa-item">
+      <div class="mapa-icon">📍</div>
+      <div class="mapa-item-text"><h4>Coordenadas Geográficas</h4><p>Latitude e longitude para localizar o Laboratório Perdido no mapa</p></div>
+    </div>
+    <div class="mapa-item">
+      <div class="mapa-icon">💧</div>
+      <div class="mapa-item-text"><h4>Ciclo da Água</h4><p>Identificar etapas do ciclo para descobrir o caminho correto</p></div>
+    </div>
+    <div class="mapa-item">
+      <div class="mapa-icon">🦁</div>
+      <div class="mapa-item-text"><h4>Fauna Brasileira</h4><p>Animais guardiões das pistas — identificar espécies para avançar</p></div>
+    </div>
+    <div class="mapa-item">
+      <div class="mapa-icon">🔬</div>
+      <div class="mapa-item-text"><h4>Microscópio Escondido</h4><p>Objeto final a ser encontrado dentro do Laboratório Perdido</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: FINAL -->
+<div class="slide slide-final">
+  <div class="final-titulo">🏆 ESCAPE ROOM FINAL</div>
+  <div class="final-sub">Aula 5 — Todos os conhecimentos se unem!</div>
+  <div class="senha-reveal">ESCAPE</div>
+  <div class="pontos-grid">
+    <div class="ponto"><div class="ponto-val">40–50</div><div class="ponto-label">minutos de jogo</div></div>
+    <div class="ponto"><div class="ponto-val">6</div><div class="ponto-label">grupos competindo</div></div>
+    <div class="ponto"><div class="ponto-val">4</div><div class="ponto-label">áreas do conhecimento</div></div>
+    <div class="ponto"><div class="ponto-val">5</div><div class="ponto-label">enigmas para resolver</div></div>
+  </div>
+  <p style="font-size:16px;color:#8899aa;margin-top:10px;">O grupo que descobrir a senha final primeiro vence — mas todos aprendem! 🎉</p>
+</div>
+
+<!-- SLIDE 9: AVALIAÇÃO -->
+<div class="slide slide-avaliacao">
+  <div class="aval-col">
+    <div class="slide-titulo">📊 Critérios de Avaliação</div>
+    <div class="criterio"><h4>🤝 Trabalho em Equipe</h4><p>Colaboração, divisão de tarefas e respeito entre os membros do grupo</p></div>
+    <div class="criterio"><h4>🧠 Aplicação do Conteúdo</h4><p>Demonstração dos conhecimentos de Matemática, LP, História, Ciências e Geografia</p></div>
+    <div class="criterio"><h4>💻 Uso das Tecnologias</h4><p>Manejo adequado dos tablets, Google Forms e QR Codes durante o jogo</p></div>
+    <div class="criterio"><h4>⏱️ Gestão do Tempo</h4><p>Organização e rapidez na resolução dos desafios dentro do cronômetro</p></div>
+  </div>
+  <div class="aval-col">
+    <div style="height:80px"></div>
+    <div class="criterio"><h4>🎯 Participação</h4><p>Engajamento ativo de todos os integrantes durante as 5 aulas</p></div>
+    <div class="criterio"><h4>🔒 Resolução de Enigmas</h4><p>Acerto dos códigos e desbloqueio das fases com autonomia</p></div>
+    <div class="criterio"><h4>📝 Registro</h4><p>Anotações e organização das pistas ao longo das aulas preparatórias</p></div>
+    <div style="margin-top:20px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:16px 18px;text-align:center;">
+      <div style="font-size:13px;color:#d4af37;font-weight:700;">🏅 PREMIAÇÃO</div>
+      <div style="font-size:14px;color:#aabbcc;margin-top:8px;">1º lugar · Certificado de Campeões do Escape Room<br>Todos ganham pontos extras por participação!</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: REFERÊNCIAS -->
+<div class="slide slide-refs">
+  <div class="slide-titulo" style="margin-bottom:30px;">📚 Referências</div>
+  <div class="ref">BRASIL. <em>Base Nacional Comum Curricular (BNCC)</em>. Ministério da Educação, 2018. Competências digitais e metodologias ativas para o Ensino Fundamental.</div>
+  <div class="ref">DICHEVA, D. et al. Gamification in Education: A Systematic Mapping Study. <em>Educational Technology & Society</em>, v. 18, n. 3, p. 75–88, 2015.</div>
+  <div class="ref">NICHOLSON, S. <em>Peeking Behind the Locked Door: A Survey of Escape Room Facilities</em>. White Paper, 2015. Disponível em: scottnicholson.com.</div>
+  <div class="ref">PRENSKY, M. <em>Digital Game-Based Learning</em>. McGraw-Hill, 2001. Aprendizagem baseada em jogos digitais no contexto escolar.</div>
+</div>
+
+</body>
+</html>
